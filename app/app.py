@@ -1,11 +1,15 @@
 """
 app/app.py
 ----------
-Modern Food Safety Intelligence & Adulteration Risk Inspection Dashboard
+FoodGuard AI — Forensic Food Adulteration Risk Intelligence Cockpit
 Department of Information Technology · K. Ramakrishnan College of Technology (Autonomous), Trichy
 
-Architecture Stage 7: Food Adulteration Risk Prediction Using Data Mining Techniques
-Tech Stack: Streamlit · Scikit-Learn · SQLite · Matplotlib · Seaborn
+Unique Architecture:
+- Dynamic Multi-Chamber Forensic Lab Bench (Replaces standard form layouts)
+- Commodity-Adaptive Statutory Threshold HUD (Dynamically adapts limits per food matrix)
+- Dual-Dial Radial SVG Risk Speedometer & Statutory Action Directive
+- Workflow Control Hub (Replaces generic tabs with specialized operational consoles)
+- Live SQLite Audit Ledger & Longitudinal Surveillance Analytics
 
 CRITICAL DISCLAIMER:
 Academic demonstration only. Trained on synthetic data. NOT a substitute for
@@ -38,265 +42,244 @@ from src.database import (
 )
 
 # -----------------------------------------------------------------------------
-# Streamlit Page Configuration
+# Streamlit App Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="FoodGuard AI — Adulteration Risk Intelligence",
-    page_icon="🛡️",
+    page_title="FoodGuard AI — Forensic Cockpit",
+    page_icon="🔬",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # -----------------------------------------------------------------------------
-# High-End Design System & Custom CSS Styling
+# Custom Advanced UI Design System (Forensic Lab HUD)
 # -----------------------------------------------------------------------------
 st.markdown("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Global Typography & Palette */
+    /* Global Styles */
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
-    /* Main Background & Gradient Mesh */
     .stApp {
-        background-color: #0b0f19;
+        background-color: #080c14;
         background-image: 
-            radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(129, 140, 248, 0.08) 0px, transparent 50%),
-            radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
-        color: #f1f5f9;
+            radial-gradient(circle at 15% 10%, rgba(14, 165, 233, 0.09) 0px, transparent 40%),
+            radial-gradient(circle at 85% 15%, rgba(99, 102, 241, 0.08) 0px, transparent 40%),
+            radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.06) 0px, transparent 50%);
+        color: #e2e8f0;
     }
 
-    /* Hero Banner Header */
-    .hero-container {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.70) 100%);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+    /* Top Command Header */
+    .command-header {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.90) 0%, rgba(30, 41, 59, 0.75) 100%);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        padding: 24px 30px;
-        margin-bottom: 22px;
-        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+        border-radius: 18px;
+        padding: 20px 28px;
+        margin-bottom: 18px;
+        box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
     }
-    .hero-title {
-        font-size: 2.2rem;
+    .hud-title {
+        font-size: 2.1rem;
         font-weight: 800;
         letter-spacing: -0.03em;
         background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 4px;
+        line-height: 1.15;
     }
-    .hero-subtitle {
+    .hud-sub {
         color: #94a3b8;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         font-weight: 500;
+        margin-top: 3px;
     }
 
-    /* Permanent Academic Warning Banner */
-    .warning-glass-banner {
-        background: rgba(69, 26, 3, 0.55);
+    /* Academic Warning Beacon */
+    .statutory-banner {
+        background: rgba(69, 26, 3, 0.6);
         border: 1px solid rgba(245, 158, 11, 0.35);
-        backdrop-filter: blur(12px);
         border-radius: 12px;
-        padding: 12px 18px;
-        margin-bottom: 22px;
+        padding: 10px 16px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         gap: 12px;
-        color: #fde68a;
-        font-size: 0.88rem;
-        line-height: 1.45;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08);
+        color: #fef08a;
+        font-size: 0.86rem;
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.07);
     }
-    .pulsing-dot {
-        width: 10px;
-        height: 10px;
+    .pulse-dot {
+        width: 9px;
+        height: 9px;
         background-color: #f59e0b;
         border-radius: 50%;
         display: inline-block;
         box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
-        animation: pulse-amber 2s infinite;
+        animation: pulse-ring 2s infinite;
     }
-    @keyframes pulse-amber {
+    @keyframes pulse-ring {
         0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
         70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
     }
 
-    /* Glassmorphic Cards */
-    .glass-card {
-        background: rgba(17, 24, 39, 0.70);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(16px);
-        border-radius: 16px;
-        padding: 20px 24px;
-        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
-        margin-bottom: 16px;
-    }
-
-    /* KPI Metric Cards */
-    .kpi-card {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    /* Chamber Panels (Unique 3-Chamber Inspection Layout) */
+    .chamber-card {
+        background: rgba(15, 23, 42, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 16px;
-        padding: 18px 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .kpi-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(56, 189, 248, 0.3);
-    }
-    .kpi-label {
-        color: #94a3b8;
-        font-size: 0.80rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-    }
-    .kpi-value {
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: #f8fafc;
-        margin-top: 4px;
-        letter-spacing: -0.02em;
-    }
-
-    /* Status Badges */
-    .status-badge-safe {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(16, 185, 129, 0.15);
-        border: 1px solid #10b981;
-        color: #34d399;
-        font-weight: 700;
-        font-size: 1.05rem;
-        padding: 8px 18px;
-        border-radius: 9999px;
-        box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
-    }
-    .status-badge-adulterated {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(239, 68, 68, 0.15);
-        border: 1px solid #ef4444;
-        color: #f87171;
-        font-weight: 700;
-        font-size: 1.05rem;
-        padding: 8px 18px;
-        border-radius: 9999px;
-        box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
-    }
-
-    /* Risk Tier Pills */
-    .tier-low {
-        background: rgba(16, 185, 129, 0.12);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        display: inline-block;
-    }
-    .tier-medium {
-        background: rgba(245, 158, 11, 0.12);
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        display: inline-block;
-    }
-    .tier-high {
-        background: rgba(239, 68, 68, 0.12);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        display: inline-block;
-    }
-
-    /* Custom Gauge Bar Container */
-    .gauge-container {
-        background: #1e293b;
-        border-radius: 9999px;
-        height: 14px;
-        width: 100%;
-        overflow: hidden;
-        margin: 10px 0;
-        position: relative;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .gauge-fill {
+        padding: 20px;
         height: 100%;
-        border-radius: 9999px;
-        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    .chamber-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+    }
+    .chamber-cyan::before { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
+    .chamber-purple::before { background: linear-gradient(90deg, #6366f1, #a855f7); }
+    .chamber-emerald::before { background: linear-gradient(90deg, #10b981, #34d399); }
+
+    .chamber-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .chamber-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f8fafc;
+        letter-spacing: -0.01em;
+    }
+    .chamber-tag {
+        font-size: 0.70rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
     }
 
-    /* Diagnostic Driver List Items */
-    .driver-item {
-        background: rgba(30, 41, 59, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Commodity Threshold Guidance Pill */
+    .norm-pill {
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px dashed rgba(56, 189, 248, 0.3);
         border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.82rem;
+        color: #bae6fd;
+        margin-bottom: 14px;
+        line-height: 1.45;
+    }
+
+    /* Litmus Scale Bar */
+    .litmus-bar {
+        height: 6px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #ef4444 0%, #f59e0b 25%, #10b981 50%, #06b6d4 75%, #8b5cf6 100%);
+        margin: 6px 0 12px 0;
+        opacity: 0.85;
+    }
+
+    /* Result Triage HUD */
+    .verdict-cockpit {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.85) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        padding: 24px 28px;
+        margin-top: 20px;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Status Glow Orbs */
+    .glow-safe {
+        color: #34d399;
+        font-weight: 800;
+        font-size: 1.65rem;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+    .glow-adulterated {
+        color: #f87171;
+        font-weight: 800;
+        font-size: 1.65rem;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Circular SVG Speedometer */
+    .speedometer-svg {
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Forensic Driver Pill */
+    .forensic-flag {
+        background: rgba(30, 41, 59, 0.7);
+        border-left: 4px solid #ef4444;
+        border-radius: 8px;
         padding: 10px 14px;
         margin-bottom: 8px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-    }
-    .driver-text {
+        align-items: center;
         font-size: 0.88rem;
-        color: #e2e8f0;
     }
-
-    /* Tab Styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background-color: rgba(15, 23, 42, 0.6);
-        padding: 6px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .stTabs [data-baseweb="tab"] {
+    .forensic-flag-warning {
+        background: rgba(30, 41, 59, 0.7);
+        border-left: 4px solid #f59e0b;
         border-radius: 8px;
-        padding: 8px 16px;
-        color: #94a3b8;
-        font-weight: 600;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         font-size: 0.88rem;
-        border: none !important;
     }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%) !important;
-        color: #38bdf8 !important;
-        border: 1px solid rgba(56, 189, 248, 0.4) !important;
+    .forensic-flag-conforming {
+        background: rgba(30, 41, 59, 0.7);
+        border-left: 4px solid #10b981;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.88rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
-# Cached Engine & Metadata
+# Cached Pipeline & Metadata
 # -----------------------------------------------------------------------------
-@st.cache_resource(show_spinner="Initializing FoodGuard AI Engine...")
+@st.cache_resource(show_spinner="Engaging Forensic Machine Learning Engine...")
 def get_cached_pipeline():
-    """Loads and caches the winning model pipeline."""
     return load_model_pipeline()
 
 
 @st.cache_data
 def get_cached_metadata():
-    """Loads model training metadata."""
     meta_path = os.path.join(PROJECT_ROOT, "models", "model_metadata.json")
     if os.path.exists(meta_path):
         with open(meta_path, 'r', encoding='utf-8') as f:
@@ -309,317 +292,397 @@ pipeline, metadata = get_cached_pipeline()
 
 
 # -----------------------------------------------------------------------------
-# Top Hero Banner Header
+# Top Command Header & Institutional Branding
 # -----------------------------------------------------------------------------
 st.markdown("""
-<div class="hero-container">
-    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-        <div>
-            <div class="hero-title">🛡️ FoodGuard AI — Food Adulteration Risk Inspector</div>
-            <div class="hero-subtitle">
-                Academic Machine Learning & Chemometric Risk Intelligence · K. Ramakrishnan College of Technology (Autonomous)
-            </div>
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <span style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 0.80rem; font-weight: 600;">
-                ⚡ Model: Gradient Boosting
-            </span>
-            <span style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 6px 12px; border-radius: 8px; font-size: 0.80rem; font-weight: 600;">
-                🎯 Test Recall: 100.0% (0 FN)
-            </span>
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# -----------------------------------------------------------------------------
-# Permanent Academic Disclaimer Banner
-# -----------------------------------------------------------------------------
-st.markdown("""
-<div class="warning-glass-banner">
-    <span class="pulsing-dot"></span>
+<div class="command-header">
     <div>
-        <strong>ACADEMIC SURVEILLANCE PROTOTYPE:</strong> Trained exclusively on 6,000 domain-grounded synthetic records 
-        benchmarked against statutory <em>Food Safety and Standards Authority of India (FSSAI)</em> thresholds. 
-        <strong>NOT</strong> a certified laboratory assay. Never use for clinical or legal enforcement decisions.
+        <div class="hud-title">🛡️ FoodGuard AI — Food Adulteration Risk Inspector</div>
+        <div class="hud-sub">
+            Forensic Decision-Support System · Dept of Information Technology · K. Ramakrishnan College of Technology (Autonomous), Trichy
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.4); color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; padding: 5px 12px; border-radius: 6px; font-weight: 600;">
+            ENGINE: Gradient Boosting
+        </span>
+        <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; padding: 5px 12px; border-radius: 6px; font-weight: 600;">
+            TEST RECALL: 100.0% (0 FN)
+        </span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# -----------------------------------------------------------------------------
+# Permanent Statutory Academic Warning Banner
+# -----------------------------------------------------------------------------
+st.markdown("""
+<div class="statutory-banner">
+    <span class="pulse-dot"></span>
+    <div>
+        <strong>STATUTORY NOTICE (ACADEMIC BENCHMARK):</strong> Engineered strictly for educational evaluation in Data Mining Techniques. 
+        Trained on 6,000 domain-synthesized samples grounded in <em>Food Safety and Standards Authority of India (FSSAI)</em> specifications. 
+        <strong>NOT</strong> an accredited chemical laboratory assay. Do not execute real legal seizures or medical dietary clearances based solely on this tool.
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
-# Sidebar Configuration
+# Modern Top Navigation Deck (Unique Workflow Selector)
 # -----------------------------------------------------------------------------
-with st.sidebar:
-    st.markdown("### 🔬 Inspection Console")
-    st.markdown("**Authority:** FSSAI Regulatory Framework")
-    st.markdown("**Dataset:** 6,000 Domain-Grounded Samples")
-    st.markdown("**Balancing:** Leak-Free Training SMOTE")
+menu_choice = st.radio(
+    "Select Operational Inspection Mode",
+    [
+        "🔬 Forensic Inspection Deck",
+        "🚢 High-Volume Cargo Audit",
+        "📊 Empirical Surveillance Insights",
+        "📈 Algorithmic Benchmark Lab",
+        "🗄️ SQLite Chain-of-Custody Ledger",
+        "ℹ️ Institutional Charter & Standards"
+    ],
+    horizontal=True,
+    label_visibility="collapsed"
+)
 
-    st.markdown("---")
-    st.markdown("#### 🚦 Statutory Risk Tiers")
-    st.markdown("""
-    - <span class="tier-low" style="padding: 2px 8px; font-size: 0.78rem;">🟢 Low Risk (&lt; 0.35)</span><br>
-      <small style="color: #94a3b8;">Conforming commercial grade.</small>
-    - <span class="tier-medium" style="padding: 2px 8px; font-size: 0.78rem;">🟡 Medium Risk (0.35–0.65)</span><br>
-      <small style="color: #94a3b8;">Borderline anomalies; retest advised.</small>
-    - <span class="tier-high" style="padding: 2px 8px; font-size: 0.78rem;">🔴 High Risk (&gt; 0.65)</span><br>
-      <small style="color: #94a3b8;">Impound consignment & lab referral.</small>
-    """, unsafe_allow_html=True)
-
-    st.markdown("---")
-    st.markdown("#### 👥 Investigation Team")
-    st.caption("Jayanth S · `2403811720521023`")
-    st.caption("Jithin AK · `2403811720521025`")
-    st.caption("Keerthivasan RP · `2403811720521026`")
-    st.caption("Guide: B.Tech IT Faculty Board")
-
-
-# -----------------------------------------------------------------------------
-# Main Navigation Tabs
-# -----------------------------------------------------------------------------
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "🎯 Real-time Inspection",
-    "📁 Batch Cargo Scanner",
-    "📊 Empirical Data Insights",
-    "📈 Algorithm Benchmarking",
-    "🗄️ SQLite Audit Trail",
-    "ℹ️ Academic Documentation"
-])
+st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
 
 # =============================================================================
-# TAB 1: REAL-TIME SINGLE SAMPLE INSPECTOR
+# MODE 1: FORENSIC INSPECTION DECK (RADICALLY UNIQUE 3-CHAMBER HUD)
 # =============================================================================
-with tab1:
-    st.markdown("### 🧪 Individual Consignment Inspection & Risk Profiling")
-    st.markdown("Adjust measurable physicochemical parameters and organoleptic sensory scores to evaluate adulteration likelihood.")
+if menu_choice == "🔬 Forensic Inspection Deck":
+    st.markdown("### 🔬 Multi-Chamber Forensic Assessment Deck")
+    st.markdown("Configure the sample profile across three specialized analytical chambers to compute real-time statutory risk.")
 
-    # Demonstration Preset Cards
+    # 1. Commodity Selector Bar
+    c_bar1, c_bar2 = st.columns([0.40, 0.60])
+
+    with c_bar1:
+        commodities = ['milk', 'oil', 'spices', 'grains', 'honey', 'beverages', 'processed']
+        commodity_icons = {
+            'milk': '🥛 Milk & Liquid Dairy',
+            'oil': '🛢️ Edible Oils & Lipids',
+            'spices': '🌶️ Condiments & Spices',
+            'grains': '🌾 Cereals & Grains',
+            'honey': '🍯 Raw & Processed Honey',
+            'beverages': '🥤 Juices & Soft Drinks',
+            'processed': '📦 Bakery & Ready-to-Eat'
+        }
+        chosen_cat = st.selectbox(
+            "Selected Food Commodity Matrix",
+            commodities,
+            format_func=lambda x: commodity_icons.get(x, x.title())
+        )
+
+    # Commodity Statutory Tolerance Metadata Card
+    commodity_norms = {
+        'milk': "📌 <strong>FSSAI Milk Standards:</strong> Normal Moisture 87.0% – 89.0% | pH 6.50 – 6.80 | Max Cold Chain Temp &le; 6.0°C | Alkaline shift (>7.5) signals caustic detergent.",
+        'oil': "📌 <strong>FSSAI Edible Oils:</strong> Moisture &le; 0.20% | Pure pH 5.50 – 6.50 | Shelf Temp 18°C – 28°C | Moisture >0.25% indicates water/mineral oil dilution.",
+        'spices': "📌 <strong>FSSAI Spices Regulations:</strong> Moisture 6.0% – 12.0% | pH 5.00 – 6.40 | Zero tolerance for non-permitted coal-tar dyes (Metanil Yellow, Sudan dyes).",
+        'grains': "📌 <strong>FSSAI Grain Tolerances:</strong> Safe Moisture 10.0% – 14.0% | pH 6.00 – 6.80 | Excess moisture (>14.5%) sparks hazardous Aspergillus fungal aflatoxins.",
+        'honey': "📌 <strong>FSSAI Honey Standards (2018):</strong> Statutory Maximum Moisture strictly &le; 20.0% | Acidic pH 3.50 – 4.50 | Moisture >20% proves inverted sugar syrup adulteration.",
+        'beverages': "📌 <strong>FSSAI Beverage Norms:</strong> Moisture 85.0% – 94.0% | Acidic pH 2.80 – 4.20 | Storage &le; 12.0°C | Chemical off-flavor signals synthetic sweetener fraud.",
+        'processed': "📌 <strong>FSSAI Processed Foods:</strong> Moisture 6.0% – 18.0% | pH 4.50 – 6.50 | Sensory score degradation signals recycled rancid frying fats."
+    }
+
+    with c_bar2:
+        st.markdown(f"<div class='norm-pill'>{commodity_norms.get(chosen_cat, '')}</div>", unsafe_allow_html=True)
+
+    # Quick Lab Pre-sets for Viva Voce Testing
     st.markdown("##### ⚡ Quick Laboratory Presets for Viva Demonstration")
-    demo_c1, demo_c2, demo_c3, demo_c4 = st.columns(4)
+    q_c1, q_c2, q_c3, q_c4 = st.columns(4)
+    active_preset = None
 
-    preset_sample = None
-    with demo_c1:
-        if st.button("🥛 Conforming Pure Milk", use_container_width=True, help="Fresh dairy with normal moisture and neutral pH"):
-            preset_sample = {'food_category': 'milk', 'moisture_content': 87.8, 'ph_level': 6.65, 'storage_temperature': 4.0, 'expiry_days_remaining': 8, 'preservatives_used': 'none', 'color_score': 5, 'smell_score': 5, 'taste_score': 5, 'packaging_quality_score': 5}
-    with demo_c2:
-        if st.button("⚠️ Adulterated Milk (Water+Soda)", use_container_width=True, help="High moisture dilution + alkaline detergent shift"):
-            preset_sample = {'food_category': 'milk', 'moisture_content': 93.8, 'ph_level': 7.95, 'storage_temperature': 15.0, 'expiry_days_remaining': -2, 'preservatives_used': 'non-permitted', 'color_score': 2, 'smell_score': 2, 'taste_score': 1, 'packaging_quality_score': 2}
-    with demo_c3:
-        if st.button("🍯 Adulterated Honey (Sugar Syrup)", use_container_width=True, help="Moisture breaches 20% FSSAI statutory threshold"):
-            preset_sample = {'food_category': 'honey', 'moisture_content': 24.2, 'ph_level': 5.10, 'storage_temperature': 28.0, 'expiry_days_remaining': 90, 'preservatives_used': 'none', 'color_score': 3, 'smell_score': 3, 'taste_score': 2, 'packaging_quality_score': 4}
-    with demo_c4:
-        if st.button("🌶️ Dye-Adulterated Spices", use_container_width=True, help="Severe color alteration and non-permitted dye additives"):
-            preset_sample = {'food_category': 'spices', 'moisture_content': 16.5, 'ph_level': 4.20, 'storage_temperature': 33.0, 'expiry_days_remaining': 12, 'preservatives_used': 'non-permitted', 'color_score': 1, 'smell_score': 2, 'taste_score': 2, 'packaging_quality_score': 2}
+    with q_c1:
+        if st.button("🥛 Conforming Pure Milk", use_container_width=True):
+            chosen_cat = 'milk'
+            active_preset = {'moisture': 87.8, 'ph': 6.65, 'temp': 4.0, 'exp': 8, 'pres': 'none', 'c': 5, 's': 5, 't': 5, 'p': 5}
+    with q_c2:
+        if st.button("⚠️ Adulterated Milk (Water+Soda)", use_container_width=True):
+            chosen_cat = 'milk'
+            active_preset = {'moisture': 93.6, 'ph': 7.95, 'temp': 15.0, 'exp': -1, 'pres': 'non-permitted', 'c': 2, 's': 2, 't': 1, 'p': 2}
+    with q_c3:
+        if st.button("🍯 Adulterated Honey (High Sugar)", use_container_width=True):
+            chosen_cat = 'honey'
+            active_preset = {'moisture': 24.5, 'ph': 5.20, 'temp': 28.0, 'exp': 90, 'pres': 'none', 'c': 3, 's': 3, 't': 2, 'p': 4}
+    with q_c4:
+        if st.button("🌶️ Dye-Adulterated Spices", use_container_width=True):
+            chosen_cat = 'spices'
+            active_preset = {'moisture': 16.5, 'ph': 4.15, 'temp': 33.0, 'exp': 14, 'pres': 'non-permitted', 'c': 1, 's': 2, 't': 2, 'p': 2}
 
-    # Inspection Input Form
-    with st.form("modern_inspection_form"):
-        form_col1, form_col2 = st.columns(2)
+    # -------------------------------------------------------------------------
+    # Unique 3-Chamber Inspection Layout (Radically Different Input Partition)
+    # -------------------------------------------------------------------------
+    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+    ch1, ch2, ch3 = st.columns([1, 1.1, 1.1])
 
-        with form_col1:
-            st.markdown("#### 1. Objective Physical & Chemical Measurements")
+    with ch1:
+        st.markdown("""
+        <div class="chamber-card chamber-cyan">
+            <div class="chamber-header">
+                <span style="font-size: 1.3rem;">❄️</span>
+                <div>
+                    <div class="chamber-title">Chamber 1: Cold Chain & Chronometry</div>
+                    <div class="chamber-tag">Telemetry & Logistics</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
-            categories = ['milk', 'oil', 'spices', 'grains', 'honey', 'beverages', 'processed']
-            default_cat = preset_sample['food_category'] if preset_sample else 'milk'
-            cat_choice = st.selectbox("Food Commodity Category", categories, index=categories.index(default_cat))
+        temp_default = active_preset['temp'] if active_preset else (4.0 if chosen_cat == 'milk' else 22.0)
+        temp_input = st.number_input("Cold Storage Temperature (°C)", -20.0, 50.0, float(temp_default), step=0.5)
 
-            m_val = float(preset_sample['moisture_content']) if preset_sample else 87.5
-            moisture_in = st.slider("Moisture Content (% w/w)", 0.0, 100.0, m_val, step=0.1, help="FSSAI: Pure Milk 87-89%, Honey max 20%, Oil max 0.2%")
+        # Thermal condition indicator
+        if temp_input <= 6.0:
+            st.caption("🟢 **Thermal Status:** Optimal Chilled Chain")
+        elif temp_input <= 25.0:
+            st.caption("🟡 **Thermal Status:** Ambient Room Storage")
+        else:
+            st.caption("🔴 **Thermal Status:** Severe Thermal Heat Abuse")
 
-            ph_val = float(preset_sample['ph_level']) if preset_sample else 6.65
-            ph_in = st.slider("pH Level (Hydrogen-ion Concentration)", 2.0, 10.0, ph_val, step=0.05, help="Fresh milk: 6.5-6.8. Alkaline > 7.5 indicates neutralizer/detergent.")
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
-            temp_val = float(preset_sample['storage_temperature']) if preset_sample else 4.0
-            temp_in = st.number_input("Cold-Chain / Storage Temperature (°C)", -20.0, 50.0, temp_val, step=0.5, help="Statutory cold storage limit for milk <= 6.0°C.")
+        exp_default = active_preset['exp'] if active_preset else 15
+        exp_input = st.number_input("Shelf-Life Remaining (Days)", -60, 730, int(exp_default), step=1)
 
-            exp_val = int(preset_sample['expiry_days_remaining']) if preset_sample else 7
-            exp_in = st.number_input("Shelf-Life Days Remaining (Negative = Expired)", -60, 730, exp_val, step=1, help="Expired commodities represent statutory violations.")
+        if exp_input <= 0:
+            st.error(f"⚠️ Expired by {abs(exp_input)} days (Statutory Prohibition)")
+        elif exp_input <= 5:
+            st.warning("⚠️ Critical: Approaching Expiry (< 5 days)")
+        else:
+            st.success("✅ Commercial Shelf-Life Valid")
 
-            pres_options = ['none', 'permitted', 'non-permitted']
-            default_pres = preset_sample['preservatives_used'] if preset_sample else 'none'
-            pres_in = st.selectbox("Chemical Preservative Screening Assay", pres_options, index=pres_options.index(default_pres))
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        with form_col2:
-            st.markdown("#### 2. Organoleptic Sensory Ratings (1 to 5 Likert)")
-            st.caption("1 = Acute Chemical Defect / Severe Anomaly | 5 = Conforming Commercial Grade")
+    with ch2:
+        st.markdown("""
+        <div class="chamber-card chamber-purple">
+            <div class="chamber-header">
+                <span style="font-size: 1.3rem;">🧪</span>
+                <div>
+                    <div class="chamber-title">Chamber 2: Physicochemical Sensor Lab</div>
+                    <div class="chamber-tag">Chemical Assays</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
-            c_def = int(preset_sample['color_score']) if preset_sample else 5
-            color_in = st.select_slider("Color Score (Discoloration / Synthetic Dyes)", options=[1, 2, 3, 4, 5], value=c_def)
+        ph_default = active_preset['ph'] if active_preset else (6.65 if chosen_cat == 'milk' else (3.9 if chosen_cat == 'honey' else 6.0))
+        ph_input = st.slider("Digital pH Electrode (Acidity / Alkalinity)", 2.0, 10.0, float(ph_default), step=0.05)
+        st.markdown("<div class='litmus-bar'></div>", unsafe_allow_html=True)
 
-            s_def = int(preset_sample['smell_score']) if preset_sample else 5
-            smell_in = st.select_slider("Smell Score (Chemical / Rancidity / Sourness)", options=[1, 2, 3, 4, 5], value=s_def)
+        moisture_default = active_preset['moisture'] if active_preset else (87.5 if chosen_cat == 'milk' else (18.0 if chosen_cat == 'honey' else (0.1 if chosen_cat == 'oil' else 11.0)))
+        moisture_input = st.slider("Gravimetric Moisture Content (% w/w)", 0.0, 100.0, float(moisture_default), step=0.1)
 
-            t_def = int(preset_sample['taste_score']) if preset_sample else 5
-            taste_in = st.select_slider("Taste Score (Unpalatable / Acrid / Off-flavor)", options=[1, 2, 3, 4, 5], value=t_def)
+        st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
 
-            p_def = int(preset_sample['packaging_quality_score']) if preset_sample else 5
-            pkg_in = st.select_slider("Packaging Integrity (Tampered Seal / Swollen)", options=[1, 2, 3, 4, 5], value=p_def)
+        pres_opts = ['none', 'permitted', 'non-permitted']
+        pres_default = active_preset['pres'] if active_preset else 'none'
+        pres_input = st.selectbox("Chemical Preservative Assay", pres_opts, index=pres_opts.index(pres_default))
 
-        eval_btn = st.form_submit_button("⚡ Execute Forensic Adulteration Assessment", use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    if eval_btn:
-        sample_payload = {
-            'food_category': cat_choice,
-            'moisture_content': moisture_in,
-            'ph_level': ph_in,
-            'storage_temperature': temp_in,
-            'expiry_days_remaining': exp_in,
-            'preservatives_used': pres_in,
+    with ch3:
+        st.markdown("""
+        <div class="chamber-card chamber-emerald">
+            <div class="chamber-header">
+                <span style="font-size: 1.3rem;">👁️</span>
+                <div>
+                    <div class="chamber-title">Chamber 3: Organoleptic Sensory Cockpit</div>
+                    <div class="chamber-tag">Likert Matrix 1–5</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            c_val = active_preset['c'] if active_preset else 5
+            color_in = st.select_slider("Color Score", options=[1, 2, 3, 4, 5], value=int(c_val), help="1 = Severe Dye Discoloration | 5 = Natural")
+
+            s_val = active_preset['s'] if active_preset else 5
+            smell_in = st.select_slider("Aroma Score", options=[1, 2, 3, 4, 5], value=int(s_val), help="1 = Foul / Rancid | 5 = Fresh Aroma")
+
+        with col_c2:
+            t_val = active_preset['t'] if active_preset else 5
+            taste_in = st.select_slider("Taste Score", options=[1, 2, 3, 4, 5], value=int(t_val), help="1 = Acrid / Off-flavor | 5 = Normal Flavor")
+
+            p_val = active_preset['p'] if active_preset else 5
+            pkg_in = st.select_slider("Packaging Seal", options=[1, 2, 3, 4, 5], value=int(p_val), help="1 = Tampered Seal | 5 = Pristine Hermetic")
+
+        st.caption("Scores 1–2 represent organoleptic threshold breaches.")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # -------------------------------------------------------------------------
+    # Evaluation Action Bar
+    # -------------------------------------------------------------------------
+    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+    assess_btn = st.button("⚡ EXECUTE FORENSIC COMPLIANCE ASSAY", use_container_width=True, type="primary")
+
+    if assess_btn or active_preset is not None:
+        sample_query = {
+            'food_category': chosen_cat,
+            'moisture_content': moisture_input,
+            'ph_level': ph_input,
+            'storage_temperature': temp_input,
+            'expiry_days_remaining': exp_input,
+            'preservatives_used': pres_input,
             'color_score': color_in,
             'smell_score': smell_in,
             'taste_score': taste_in,
             'packaging_quality_score': pkg_in
         }
 
-        # Run inference through pipeline
-        inf_result = predict_single(sample_payload, log_to_db=True)
-        prob = inf_result['probability']
-        status = inf_result['predicted_status']
-        risk_tier = inf_result['risk_band']
-        db_id = inf_result.get('database_log_id', 'Logged')
+        # Predict and log
+        diag = predict_single(sample_query, log_to_db=True)
+        prob = diag['probability']
+        status = diag['predicted_status']
+        risk_tier = diag['risk_band']
+        db_id = diag.get('database_log_id', 'Logged')
 
-        st.markdown("---")
-        st.markdown("### 📋 Diagnostic Inspection Verdict")
-
-        # Top Diagnostic Metric Cards
-        diag_c1, diag_c2, diag_c3, diag_c4 = st.columns(4)
-
-        with diag_c1:
-            st.markdown('<div class="kpi-card">', unsafe_allow_html=True)
-            st.markdown('<div class="kpi-label">Safety Status</div>', unsafe_allow_html=True)
-            if status == "Safe":
-                st.markdown('<div style="margin-top: 8px;"><span class="status-badge-safe">🛡️ SAFE</span></div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div style="margin-top: 8px;"><span class="status-badge-adulterated">🚨 ADULTERATED</span></div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with diag_c2:
-            st.markdown('<div class="kpi-card">', unsafe_allow_html=True)
-            st.markdown('<div class="kpi-label">Risk Probability</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="kpi-value">{prob:.1%}</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with diag_c3:
-            st.markdown('<div class="kpi-card">', unsafe_allow_html=True)
-            st.markdown('<div class="kpi-label">Operational Risk Band</div>', unsafe_allow_html=True)
-            if risk_tier == "Low Risk":
-                st.markdown('<div style="margin-top: 8px;"><span class="tier-low">🟢 LOW RISK</span></div>', unsafe_allow_html=True)
-            elif risk_tier == "Medium Risk":
-                st.markdown('<div style="margin-top: 8px;"><span class="tier-medium">🟡 MEDIUM RISK</span></div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div style="margin-top: 8px;"><span class="tier-high">🔴 HIGH RISK</span></div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with diag_c4:
-            st.markdown('<div class="kpi-card">', unsafe_allow_html=True)
-            st.markdown('<div class="kpi-label">SQLite Audit Provenance</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="kpi-value" style="font-size: 1.5rem; color: #38bdf8;">#{db_id} <span style="font-size: 0.8rem; color: #94a3b8;">(Verified)</span></div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        # High-Tech Gradient Risk Gauge Bar
-        st.markdown("##### 🧭 Calibrated Risk Probability Gauge")
-        gauge_color = "#10b981" if prob < 0.35 else ("#f59e0b" if prob <= 0.65 else "#ef4444")
+        # ---------------------------------------------------------------------
+        # Unique Verdict Cockpit & Speedometer Display
+        # ---------------------------------------------------------------------
         st.markdown(f"""
-        <div class="gauge-container">
-            <div class="gauge-fill" style="width: {min(100.0, max(2.0, prob * 100))}%; background: linear-gradient(90deg, #10b981 0%, {gauge_color} 100%);"></div>
-        </div>
+        <div class="verdict-cockpit">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
+                <div>
+                    <span style="font-size: 0.80rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.08em;">
+                        FORENSIC TRIAGE VERDICT · CONSIGNMENT AUDIT #{db_id}
+                    </span>
+                    <div style="margin-top: 4px;">
+                        {'<span class="glow-safe">🛡️ CONFORMING GRADE: SAFE FOR COMMERCE</span>' if status == 'Safe' else '<span class="glow-adulterated">🚨 CONTAMINATED GRADE: ADULTERATED</span>'}
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="font-size: 0.78rem; color: #94a3b8;">ASSIGNED RISK TIER:</span><br>
+                    {'<span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; font-weight: 800; padding: 4px 12px; border-radius: 6px;">🟢 LOW RISK (< 0.35)</span>' if risk_tier == 'Low Risk' else ('<span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; font-weight: 800; padding: 4px 12px; border-radius: 6px;">🟡 MEDIUM RISK (0.35 - 0.65)</span>' if risk_tier == 'Medium Risk' else '<span style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; font-weight: 800; padding: 4px 12px; border-radius: 6px;">🔴 HIGH RISK (> 0.65)</span>')}
+                </div>
+            </div>
         """, unsafe_allow_html=True)
 
-        gc1, gc2, gc3 = st.columns([0.35, 0.30, 0.35])
-        gc1.markdown("<small style='color: #34d399;'>🟢 <strong>Low Risk:</strong> 0.00 – 0.35 (Clear Consignment)</small>", unsafe_allow_html=True)
-        gc2.markdown("<small style='color: #fbbf24;'>🟡 <strong>Medium Risk:</strong> 0.35 – 0.65 (Retest Advised)</small>", unsafe_allow_html=True)
-        gc3.markdown("<small style='color: #f87171;'>🔴 <strong>High Risk:</strong> 0.65 – 1.00 (Immediate Lab Referral)</small>", unsafe_allow_html=True)
+        res_c1, res_c2 = st.columns([1, 1.8])
 
-        # Actionable Operational Guidance Box
-        st.markdown("---")
-        if risk_tier == "Low Risk":
-            st.success("✅ **STATUTORY DISPOSITION:** All physical, chemical, and organoleptic indicators conform to FSSAI baseline standards. Consignment cleared for open commercial distribution.")
-        elif risk_tier == "Medium Risk":
-            st.warning("⚠️ **STATUTORY DISPOSITION: RETEST ADVISED.** Sample displays borderline organoleptic or thermal anomalies. Hold consignment for secondary field screening or rapid enzymatic assay prior to market clearance.")
-        else:
-            st.error("🚨 **STATUTORY DISPOSITION: HIGH RISK — IMMEDIATE SEIZURE RECOMMENDED.** Severe chemical or physical threshold violation detected. Impound lot immediately and dispatch duplicate sealed forensic samples to an accredited referral laboratory under Section 47 of the FSS Act, 2006.")
+        with res_c1:
+            # SVG Radial Gauge Speedometer
+            gauge_stroke = "#10b981" if prob < 0.35 else ("#f59e0b" if prob <= 0.65 else "#ef4444")
+            dash_offset = 283 - (prob * 283)
 
-        # Explainable AI (XAI) Diagnostic Drivers
-        st.markdown("#### 🧠 Explainable AI: Detected Regulatory Non-Conformance Factors")
-        drivers = inf_result.get('risk_drivers', [])
-        for d in drivers:
-            icon = "🔴" if d['severity'] == "High" else ("🟡" if d['severity'] == "Medium" else "🟢")
             st.markdown(f"""
-            <div class="driver-item">
-                <span class="driver-text">{icon} <strong>{d['feature']}:</strong> {d['detail']}</span>
-                <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: {'#f87171' if d['severity'] == 'High' else ('#fbbf24' if d['severity'] == 'Medium' else '#34d399')};">{d['status']}</span>
+            <div style="text-align: center; padding: 10px;">
+                <svg width="180" height="180" viewBox="0 0 100 100" class="speedometer-svg">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" stroke-width="8" />
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="{gauge_stroke}" stroke-width="8"
+                            stroke-dasharray="283" stroke-dashoffset="{dash_offset}"
+                            stroke-linecap="round" transform="rotate(-90 50 50)" />
+                    <text x="50" y="47" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#f8fafc">
+                        {prob:.1%}
+                    </text>
+                    <text x="50" y="63" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="600" fill="#94a3b8" letter-spacing="1">
+                        RISK PROBABILITY
+                    </text>
+                </svg>
+                <div style="font-size: 0.80rem; color: #94a3b8; margin-top: 4px;">
+                    Calibrated Posterior Confidence: <strong>{prob:.4f}</strong>
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
+        with res_c2:
+            st.markdown("##### 📜 Statutory Directive & Enforcement Guidance")
+            if risk_tier == "Low Risk":
+                st.success("✅ **CLEARANCE NOTICE:** Sample passes all statutory physical, chemical, and organoleptic baseline tolerances. Consignment cleared for unrestricted commercial sale under FSSAI regulations.")
+            elif risk_tier == "Medium Risk":
+                st.warning("⚠️ **STATUTORY RE-INSPECTION ADVISORY:** Borderline chemical anomalies or thermal storage wear detected. Under Section 38, hold the consignment for secondary rapid enzymatic screening before market release.")
+            else:
+                st.error("🚨 **IMMEDIATE QUARANTINE ORDER:** Critical non-conformance detected. Immediate seizure warranted under Section 47 of the Food Safety and Standards Act, 2006. Dispatch duplicate sealed forensic specimens to an accredited referral laboratory.")
+
+            st.markdown("##### 🔍 Identified Non-Conformance Vectors")
+            flags = diag.get('risk_drivers', [])
+            for f in flags:
+                sev = f['severity']
+                css_class = "forensic-flag" if sev == "High" else ("forensic-flag-warning" if sev == "Medium" else "forensic-flag-conforming")
+                icon = "🔴" if sev == "High" else ("🟡" if sev == "Medium" else "🟢")
+                st.markdown(f"""
+                <div class="{css_class}">
+                    <span>{icon} <strong>{f['feature']}:</strong> {f['detail']}</span>
+                    <span style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">{f['status']}</span>
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
 
 # =============================================================================
-# TAB 2: BATCH CARGO SCANNER
+# MODE 2: HIGH-VOLUME CARGO AUDIT
 # =============================================================================
-with tab2:
-    st.markdown("### 🚢 High-Throughput Cargo Screening & Batch Auditing")
-    st.markdown("Upload bulk shipment manifests or regional market surveillance CSV files to execute high-speed automated triage.")
+elif menu_choice == "🚢 High-Volume Cargo Audit":
+    st.markdown("### 🚢 Bulk Cargo & Market Surveillance Scanner")
+    st.markdown("Automated batch triage for bulk agricultural shipments and regional retail surveillance.")
 
-    # Template Download
-    demo_df = pd.DataFrame([
-        {'food_category': 'milk', 'moisture_content': 87.8, 'ph_level': 6.65, 'storage_temperature': 4.0, 'expiry_days_remaining': 10, 'preservatives_used': 'none', 'color_score': 5, 'smell_score': 5, 'taste_score': 5, 'packaging_quality_score': 5},
-        {'food_category': 'milk', 'moisture_content': 93.2, 'ph_level': 7.85, 'storage_temperature': 14.0, 'expiry_days_remaining': -2, 'preservatives_used': 'non-permitted', 'color_score': 2, 'smell_score': 2, 'taste_score': 1, 'packaging_quality_score': 2},
-        {'food_category': 'oil', 'moisture_content': 0.12, 'ph_level': 6.10, 'storage_temperature': 22.0, 'expiry_days_remaining': 180, 'preservatives_used': 'none', 'color_score': 5, 'smell_score': 5, 'taste_score': 5, 'packaging_quality_score': 5},
-        {'food_category': 'honey', 'moisture_content': 23.5, 'ph_level': 5.20, 'storage_temperature': 26.0, 'expiry_days_remaining': 60, 'preservatives_used': 'none', 'color_score': 3, 'smell_score': 3, 'taste_score': 2, 'packaging_quality_score': 4},
-        {'food_category': 'spices', 'moisture_content': 17.0, 'ph_level': 4.10, 'storage_temperature': 34.0, 'expiry_days_remaining': 10, 'preservatives_used': 'non-permitted', 'color_score': 1, 'smell_score': 2, 'taste_score': 2, 'packaging_quality_score': 2}
-    ])
+    b_col1, b_col2 = st.columns([0.35, 0.65])
 
-    st.download_button(
-        "📥 Download Verified Surveillance CSV Template",
-        data=demo_df.to_csv(index=False),
-        file_name="food_inspection_manifest_template.csv",
-        mime="text/csv",
-        help="Use this template containing all 10 required parameter headers"
-    )
+    with b_col1:
+        st.markdown("#### 1. Download Manifest Specification")
+        st.caption("Ensure your surveillance CSV contains the 10 required parameter headers.")
 
-    batch_file = st.file_uploader("Upload Shipment Manifest CSV", type=['csv'])
+        template_df = pd.DataFrame([
+            {'food_category': 'milk', 'moisture_content': 87.8, 'ph_level': 6.65, 'storage_temperature': 4.0, 'expiry_days_remaining': 10, 'preservatives_used': 'none', 'color_score': 5, 'smell_score': 5, 'taste_score': 5, 'packaging_quality_score': 5},
+            {'food_category': 'milk', 'moisture_content': 93.5, 'ph_level': 7.90, 'storage_temperature': 14.0, 'expiry_days_remaining': -2, 'preservatives_used': 'non-permitted', 'color_score': 2, 'smell_score': 2, 'taste_score': 1, 'packaging_quality_score': 2},
+            {'food_category': 'oil', 'moisture_content': 0.85, 'ph_level': 7.10, 'storage_temperature': 35.0, 'expiry_days_remaining': -5, 'preservatives_used': 'non-permitted', 'color_score': 2, 'smell_score': 2, 'taste_score': 1, 'packaging_quality_score': 2},
+            {'food_category': 'honey', 'moisture_content': 24.5, 'ph_level': 5.20, 'storage_temperature': 28.0, 'expiry_days_remaining': 90, 'preservatives_used': 'none', 'color_score': 3, 'smell_score': 3, 'taste_score': 2, 'packaging_quality_score': 4}
+        ])
 
-    if batch_file is not None:
+        st.download_button(
+            "📥 Download Surveillance CSV Template",
+            data=template_df.to_csv(index=False),
+            file_name="food_manifest_surveillance_template.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
+
+    with b_col2:
+        st.markdown("#### 2. Ingest Manifest File")
+        uploaded_csv = st.file_uploader("Upload CSV Cargo Manifest", type=['csv'])
+
+    if uploaded_csv is not None:
         try:
-            input_df = pd.read_csv(batch_file)
-            st.info(f"Loaded **{len(input_df)}** cargo samples. Executing batch vectorized classification...")
+            in_df = pd.read_csv(uploaded_csv)
+            st.info(f"Loaded **{len(in_df)}** records. Commencing batch vectorized inference...")
 
-            with st.spinner("Processing samples through pipeline and updating SQLite audit log..."):
-                scored_batch = predict_batch(input_df, log_to_db=True)
+            with st.spinner("Executing pipeline scoring and writing audit logs..."):
+                scored_manifest = predict_batch(in_df, log_to_db=True)
 
-            # High-Level Metrics
-            bk1, bk2, bk3, bk4 = st.columns(4)
-            bk1.metric("Total Samples Scanned", len(scored_batch))
-            bk2.metric("Safe Cleared", int((scored_batch['predicted_label'] == 0).sum()))
-            bk3.metric("Adulterated Flagged", int((scored_batch['predicted_label'] == 1).sum()))
-            bk4.metric("Adulteration Prevalence", f"{(scored_batch['predicted_label'] == 1).mean():.1%}")
+            k1, k2, k3, k4 = st.columns(4)
+            k1.metric("Total Cargo Samples", len(scored_manifest))
+            k2.metric("Safe Cleared", int((scored_manifest['predicted_label'] == 0).sum()))
+            k3.metric("Adulterated Impounded", int((scored_manifest['predicted_label'] == 1).sum()))
+            k4.metric("Adulteration Prevalence", f"{(scored_manifest['predicted_label'] == 1).mean():.1%}")
 
-            st.markdown("##### Scored Shipment Inspection Log")
+            st.markdown("##### Scored Consignment Manifest")
             st.dataframe(
-                scored_batch[['food_category', 'moisture_content', 'ph_level', 'storage_temperature', 'predicted_status', 'probability', 'risk_band']],
+                scored_manifest[['food_category', 'moisture_content', 'ph_level', 'storage_temperature', 'predicted_status', 'probability', 'risk_band']],
                 use_container_width=True
             )
 
-            csv_out = scored_batch.to_csv(index=False).encode('utf-8')
+            out_csv = scored_manifest.to_csv(index=False).encode('utf-8')
             st.download_button(
-                "⬇️ Download Scored Cargo Results (CSV)",
-                data=csv_out,
+                "⬇️ Export Scored Cargo Triage Report (CSV)",
+                data=out_csv,
                 file_name="scored_cargo_inspection_results.csv",
                 mime="text/csv",
                 use_container_width=True
             )
-        except Exception as err:
-            st.error(f"Batch Processing Error: {err}")
+        except Exception as e:
+            st.error(f"Batch Processing Error: {e}")
 
 
 # =============================================================================
-# TAB 3: EMPIRICAL DATA INSIGHTS & EDA
+# MODE 3: EMPIRICAL SURVEILLANCE INSIGHTS (EDA)
 # =============================================================================
-with tab3:
-    st.markdown("### 📊 Exploratory Data Analysis & Empirical Distributions")
+elif menu_choice == "📊 Empirical Surveillance Insights":
+    st.markdown("### 📊 Empirical Surveillance Insights & Parameter Assays")
     st.markdown("Publication-grade statistical visualizations demonstrating parameter distributions, commodity baselines, and adulterant physics.")
 
-    fig_catalog = {
+    fig_map = {
         "Figure 1: Target Class Balance (Safe vs Adulterated)": "fig1_class_balance.png",
         "Figure 2: Probability Density of pH by Adulteration Class": "fig2_ph_distribution_by_class.png",
         "Figure 3: Moisture Content across Food Matrix": "fig3_moisture_by_food_category.png",
@@ -630,14 +693,14 @@ with tab3:
         "Figure 8: Expiry Days Remaining by Adulteration Status": "fig8_expiry_vs_risk.png"
     }
 
-    selected_title = st.selectbox("Select Visual Assay to Examine", list(fig_catalog.keys()))
-    fname = fig_catalog[selected_title]
-    fpath = os.path.join(PROJECT_ROOT, "reports", "figures", fname)
+    assay_choice = st.selectbox("Select Visual Assay to Examine", list(fig_map.keys()))
+    assay_file = fig_map[assay_choice]
+    assay_path = os.path.join(PROJECT_ROOT, "reports", "figures", assay_file)
 
-    if os.path.exists(fpath):
-        st.image(fpath, use_container_width=True)
+    if os.path.exists(assay_path):
+        st.image(assay_path, use_container_width=True)
 
-        interpretations_dict = {
+        interp_text = {
             "fig1_class_balance.png": "Figure 1 illustrates the empirical class distribution of the primary target is_adulterated across the 6,000 synthesized samples. Conforming safe food samples constitute 3,983 records (66.38%), whereas adulterated/contaminated samples represent 2,017 records (33.62%). This 2:1 majority-to-minority ratio closely models real-world food safety surveillance scenarios where adulterated commodities remain a minority. This intentional class imbalance serves as the direct mathematical motivation for applying SMOTE oversampling exclusively on the training partition in Stage 2 to prevent algorithmic bias without incurring synthetic test leakage.",
             "fig2_ph_distribution_by_class.png": "Figure 2 displays Kernel Density Estimation (KDE) curves of hydrogen ion concentration (pH) stratified by adulteration status. Safe samples exhibit sharp, well-defined multimodal peaks centered around commodity-specific physiological equilibriums—specifically near pH 3.3 for acidic fruit juices/honey, pH 5.8 for spices/processed foods, and pH 6.65 for fresh dairy. In contrast, adulterated samples exhibit high dispersion with pronounced tails stretching into severe alkaline regions (pH > 7.5, indicative of detergent or caustic soda addition in milk) and abnormal acidic regions (pH < 4.8 in milk, indicative of bacterial souring and curdling due to cold chain breakdown).",
             "fig3_moisture_by_food_category.png": "Figure 3 demonstrates moisture distribution across all seven commodity matrices split by class status. In commodities with strictly bounded physiological water content—most notably milk (FSSAI benchmark ~87.5%) and honey (FSSAI statutory maximum 20.0%)—adulterated samples exhibit statistically significant upward shifts. In milk, dilution with extraneous water pushes moisture toward 91–96%, while in honey, inverted sugar syrups breach the 20% limit into the 22–28% range. Conversely, edible oils maintain near-zero baseline moisture (<0.2%), where any sample breaching 0.5% moisture strongly signals cheap adulterant blending or improper dehydration.",
@@ -648,56 +711,54 @@ with tab3:
             "fig8_expiry_vs_risk.png": "Figure 8 visualizes the histogram distribution of shelf-life days remaining, highlighting the critical inflection boundary at Day 0 (statutory expiration). Samples to the left of the red dashed line (negative days remaining) are virtually 100% adulterated/non-compliant under Section 23 of the FSS Act, as selling expired stock constitutes illegal contamination regardless of organoleptic condition. Furthermore, a dense cluster of contaminated samples appears in the 0 to 10 day window, capturing near-expiry inventory dumping by vendors."
         }
 
-        st.info(f"**Analytical Interpretation:**\n\n{interpretations_dict.get(fname, 'Detailed analytical interpretation documented in Notebook 03.')}")
+        st.info(f"**Analytical Assay Assessment:**\n\n{interp_text.get(assay_file, 'Documented in Notebook 03.')}")
 
 
 # =============================================================================
-# TAB 4: ALGORITHM BENCHMARKING
+# MODE 4: ALGORITHMIC BENCHMARK LAB
 # =============================================================================
-with tab4:
-    st.markdown("### 📈 Multi-Model Benchmarking & Safety-First Evaluation")
-    st.markdown("Empirical comparison of all 7 machine learning models across 5-fold cross-validation and hold-out test metrics.")
+elif menu_choice == "📈 Algorithmic Benchmark Lab":
+    st.markdown("### 📈 Multi-Model Comparative Benchmarks & Decision Rules")
+    st.markdown("Evaluation of all 7 machine learning models across 5-fold cross-validation and hold-out test metrics.")
 
-    # Comparison Table
-    b_table = [
-        {"Classifier": "Gradient Boosting (Winning Model)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "1.0000", "5-Fold CV Recall": "0.9997 ± 0.0006"},
-        {"Classifier": "Random Forest", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9999", "5-Fold CV Recall": "1.0000 ± 0.0000"},
-        {"Classifier": "Decision Tree", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9998", "5-Fold CV Recall": "0.9975 ± 0.0032"},
-        {"Classifier": "Support Vector Machine (RBF)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9985", "5-Fold CV Recall": "1.0000 ± 0.0000"},
-        {"Classifier": "K-Nearest Neighbors (k=7)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9980", "5-Fold CV Recall": "0.9997 ± 0.0006"},
-        {"Classifier": "Logistic Regression", "Accuracy": "99.75%", "Precision": "99.50%", "Recall (Adulterated)": "99.75%", "F1-Score": "0.9963", "ROC-AUC": "0.9999", "5-Fold CV Recall": "1.0000 ± 0.0000"},
-        {"Classifier": "Gaussian Naive Bayes", "Accuracy": "99.67%", "Precision": "99.26%", "Recall (Adulterated)": "99.75%", "F1-Score": "0.9950", "ROC-AUC": "0.9993", "5-Fold CV Recall": "1.0000 ± 0.0000"}
+    # Table
+    benchmarks = [
+        {"Model Engine": "Gradient Boosting (Winning Model)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "1.0000", "5-Fold CV Recall": "0.9997 ± 0.0006"},
+        {"Model Engine": "Random Forest", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9999", "5-Fold CV Recall": "1.0000 ± 0.0000"},
+        {"Model Engine": "Decision Tree", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9998", "5-Fold CV Recall": "0.9975 ± 0.0032"},
+        {"Model Engine": "Support Vector Machine (RBF)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9985", "5-Fold CV Recall": "1.0000 ± 0.0000"},
+        {"Model Engine": "K-Nearest Neighbors (k=7)", "Accuracy": "99.67%", "Precision": "99.02%", "Recall (Adulterated)": "100.00%", "F1-Score": "0.9951", "ROC-AUC": "0.9980", "5-Fold CV Recall": "0.9997 ± 0.0006"},
+        {"Model Engine": "Logistic Regression", "Accuracy": "99.75%", "Precision": "99.50%", "Recall (Adulterated)": "99.75%", "F1-Score": "0.9963", "ROC-AUC": "0.9999", "5-Fold CV Recall": "1.0000 ± 0.0000"},
+        {"Model Engine": "Gaussian Naive Bayes", "Accuracy": "99.67%", "Precision": "99.26%", "Recall (Adulterated)": "99.75%", "F1-Score": "0.9950", "ROC-AUC": "0.9993", "5-Fold CV Recall": "1.0000 ± 0.0000"}
     ]
-    st.dataframe(pd.DataFrame(b_table), use_container_width=True)
+    st.dataframe(pd.DataFrame(benchmarks), use_container_width=True)
 
     st.markdown("""
-    > 🛡️ **Academic Justification: Why Model Selection Prioritizes RECALL Over Accuracy:**  
-    > In food safety, a **False Negative** means releasing toxic or adulterated food into supermarkets, causing toxic poisoning or fatalities.  
-    > In contrast, a **False Positive** merely refers a safe consignment for secondary lab assay. Therefore, our winning pipeline was selected based on **Recall = 100.0% (Zero False Negatives)** on hold-out testing.
+    > 🛡️ **Safety-First Metric Axiom:**  
+    > Releasing contaminated food into the retail supply chain (Type II False Negative) triggers acute poisoning and public health crises. In contrast, holding a conforming batch for secondary lab verification (Type I False Positive) is an acceptable operational safeguard. Therefore, the winning pipeline is selected on **Recall = 100.0% (Zero False Negatives)** on hold-out evaluation.
     """)
 
-    # Visual Diagnostics Columns
-    diag_c1, diag_c2 = st.columns(2)
-    with diag_c1:
+    b_c1, b_c2 = st.columns(2)
+    with b_c1:
         st.markdown("##### Overlaid ROC Curves")
-        roc_f = os.path.join(PROJECT_ROOT, "reports", "figures", "fig10_model_comparison_roc.png")
-        if os.path.exists(roc_f):
-            st.image(roc_f, use_container_width=True)
+        roc_img = os.path.join(PROJECT_ROOT, "reports", "figures", "fig10_model_comparison_roc.png")
+        if os.path.exists(roc_img):
+            st.image(roc_img, use_container_width=True)
 
-    with diag_c2:
-        st.markdown("##### Confusion Matrix Grid")
-        cm_f = os.path.join(PROJECT_ROOT, "reports", "figures", "fig11_confusion_matrices.png")
-        if os.path.exists(cm_f):
-            st.image(cm_f, use_container_width=True)
+    with b_c2:
+        st.markdown("##### Confusion Matrix Comparison")
+        cm_img = os.path.join(PROJECT_ROOT, "reports", "figures", "fig11_confusion_matrices.png")
+        if os.path.exists(cm_img):
+            st.image(cm_img, use_container_width=True)
 
     st.markdown("##### Global Feature Importance Ranking (Tree Ensemble)")
-    feat_f = os.path.join(PROJECT_ROOT, "reports", "figures", "fig12_shap_feature_importance.png")
-    if os.path.exists(feat_f):
-        st.image(feat_f, use_container_width=True)
+    feat_img = os.path.join(PROJECT_ROOT, "reports", "figures", "fig12_shap_feature_importance.png")
+    if os.path.exists(feat_img):
+        st.image(feat_img, use_container_width=True)
 
     st.markdown("---")
-    st.subheader("Apriori Association Rule Mining: Top 10 High-Lift Decision Patterns")
-    apriori_data = [
+    st.subheader("Apriori Association Mining: High-Lift Statutory Decision Rules")
+    apriori_rules = [
         {"Antecedents": "NonPermitted_Preservative", "Consequents": "Adulterated", "Support": "15.92%", "Confidence": "100.0%", "Lift": "2.97"},
         {"Antecedents": "NonPermitted_Preservative & Expired_Stock", "Consequents": "Adulterated", "Support": "9.32%", "Confidence": "100.0%", "Lift": "2.97"},
         {"Antecedents": "NonPermitted_Preservative & Severe_Sensory_Defect", "Consequents": "Adulterated", "Support": "15.30%", "Confidence": "100.0%", "Lift": "2.97"},
@@ -709,65 +770,65 @@ with tab4:
         {"Antecedents": "Packaging_Compromised & pH_Anomalous", "Consequents": "Adulterated", "Support": "6.52%", "Confidence": "100.0%", "Lift": "2.97"},
         {"Antecedents": "Severe_Sensory_Defect & pH_Anomalous", "Consequents": "Adulterated", "Support": "11.85%", "Confidence": "99.86%", "Lift": "2.97"}
     ]
-    st.table(pd.DataFrame(apriori_data))
+    st.table(pd.DataFrame(apriori_rules))
 
 
 # =============================================================================
-# TAB 5: SQLITE AUDIT TRAIL
+# MODE 5: SQLITE CHAIN-OF-CUSTODY LEDGER
 # =============================================================================
-with tab5:
-    st.markdown("### 🗄️ Regulatory Audit Trail & Longitudinal Surveillance")
-    st.markdown("All inspections performed via the dashboard are permanently logged into SQLite database `db/predictions.db` for statutory chain of custody.")
+elif menu_choice == "🗄️ SQLite Chain-of-Custody Ledger":
+    st.markdown("### 🗄️ Statutory Chain-of-Custody Audit Ledger")
+    st.markdown("Every inspection executed through FoodGuard AI is permanently recorded in SQLite `db/predictions.db` for regulatory audits.")
 
-    df_hist = get_all_predictions_as_df()
+    all_logs = get_all_predictions_as_df()
 
-    if len(df_hist) > 0:
-        hk1, hk2, hk3, hk4 = st.columns(4)
-        hk1.metric("Total Inspections Logged", len(df_hist))
-        hk2.metric("Adulterated Impounded", int((df_hist['predicted_label'] == 1).sum()))
-        hk3.metric("Safe Cleared", int((df_hist['predicted_label'] == 0).sum()))
-        hk4.metric("Mean Predicted Risk", f"{df_hist['probability'].mean():.1%}")
+    if len(all_logs) > 0:
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Total Audited Samples", len(all_logs))
+        c2.metric("Impounded Adulterations", int((all_logs['predicted_label'] == 1).sum()))
+        c3.metric("Cleared Consignments", int((all_logs['predicted_label'] == 0).sum()))
+        c4.metric("Mean Surveillance Risk", f"{all_logs['probability'].mean():.1%}")
 
         st.markdown("---")
-        h_col1, h_col2 = st.columns(2)
+        ch_c1, ch_c2 = st.columns(2)
 
-        with h_col1:
-            st.markdown("##### Longitudinal Adulteration by Food Category")
-            cat_stats = df_hist.groupby('food_category')['predicted_label'].mean() * 100
-            st.bar_chart(cat_stats)
+        with ch_c1:
+            st.markdown("##### Non-Conformance Rate by Commodity Matrix")
+            cat_df = all_logs.groupby('food_category')['predicted_label'].mean() * 100
+            st.bar_chart(cat_df)
 
-        with h_col2:
-            st.markdown("##### Distribution of Assigned Risk Tiers")
-            tier_counts = df_hist['risk_band'].value_counts()
-            st.bar_chart(tier_counts)
+        with ch_c2:
+            st.markdown("##### Distribution of Operational Risk Bands")
+            band_df = all_logs['risk_band'].value_counts()
+            st.bar_chart(band_df)
 
-        st.markdown("##### Recent Inspection Records")
-        recent_records = get_recent_predictions(limit=50)
-        st.dataframe(recent_records, use_container_width=True)
+        st.markdown("##### Live Audit Entries (Last 50 Events)")
+        recent_log = get_recent_predictions(limit=50)
+        st.dataframe(recent_log, use_container_width=True)
 
-        full_csv = df_hist.to_csv(index=False).encode('utf-8')
+        full_dump = all_logs.to_csv(index=False).encode('utf-8')
         st.download_button(
-            "⬇️ Export Entire SQLite Inspection Database (CSV)",
-            data=full_csv,
-            file_name=f"sqlite_audit_export_{len(df_hist)}_records.csv",
+            "⬇️ Export Complete SQLite Ledger to CSV",
+            data=full_dump,
+            file_name=f"sqlite_statutory_audit_ledger_{len(all_logs)}_records.csv",
             mime="text/csv",
             use_container_width=True
         )
     else:
-        st.info("No inspection entries recorded yet. Test an inspection in Tab 1 or batch upload in Tab 2 to populate the database.")
+        st.info("No ledger entries recorded yet. Test an inspection in the Forensic Deck to populate the database.")
 
 
 # =============================================================================
-# TAB 6: ACADEMIC DOCUMENTATION
+# MODE 6: INSTITUTIONAL CHARTER & STANDARDS
 # =============================================================================
-with tab6:
-    st.markdown("### 🏛️ Academic Institutional Details & Methodology")
+elif menu_choice == "ℹ️ Institutional Charter & Standards":
+    st.markdown("### 🏛️ Academic Institutional Charter & Regulatory Citations")
 
     st.markdown("""
-    #### 🎓 Course & Affiliation
-    - **Course Title:** Data Mining Techniques (DMT)
+    #### 🎓 Academic Affiliation
+    - **Course:** Data Mining Techniques (DMT)
     - **Degree:** Bachelor of Technology in Information Technology
-    - **Institution:** K. Ramakrishnan College of Technology (Autonomous), Trichy, Tamil Nadu, India
+    - **Institution:** K. Ramakrishnan College of Technology (Autonomous), Samayapuram, Trichy – 621112, Tamil Nadu, India
     - **Academic Year:** 2024 – 2025
 
     #### 👥 Project Authors
@@ -777,12 +838,12 @@ with tab6:
 
     ---
 
-    #### 📚 Published Statutory Standards Referenced
-    1. **Food Safety and Standards Act, 2006** (Act No. 34 of 2006), Government of India.
-    2. **FSSAI Food Safety and Standards (Food Products Standards) Regulations, 2011.**
-    3. **FSSAI Manual of Methods of Analysis of Foods (Milk and Milk Products), 2016.**
-    4. **FSSAI National Milk Safety Survey (NMSS), 2019.**
-    5. **Bureau of Indian Standards (BIS) IS 6273:** Sensory Evaluation of Food.
+    #### 📚 Statutory Standards & Published Citations
+    1. **Food Safety and Standards Act, 2006** (Act No. 34 of 2006), Ministry of Health and Family Welfare, Government of India.
+    2. **FSSAI Food Safety and Standards (Food Products Standards and Food Additives) Regulations, 2011**, New Delhi.
+    3. **FSSAI Manual of Methods of Analysis of Foods: Milk and Milk Products**, 2016.
+    4. **FSSAI National Milk Safety Survey (NMSS) Executive Summary**, 2019.
+    5. **Bureau of Indian Standards (BIS) IS 6273 (Part 1 & 2):** Guide for sensory evaluation of foods.
 
     ---
 
