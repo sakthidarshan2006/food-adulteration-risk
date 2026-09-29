@@ -1,0 +1,51 @@
+{
+    "model_name": "Gradient Boosting",
+    "selection_metric": "Recall (Adulterated Class)",
+    "timestamp": "2026-09-29T12:36:52.578044",
+    "metrics": {
+        "accuracy": 0.9967,
+        "precision": 0.9902,
+        "recall": 1.0,
+        "f1_score": 0.9951,
+        "roc_auc": 1.0,
+        "cv_recall_mean": 0.9997,
+        "cv_recall_std": 0.0006
+    },
+    "input_columns": [
+        "moisture_content",
+        "ph_level",
+        "storage_temperature",
+        "expiry_days_remaining",
+        "color_score",
+        "smell_score",
+        "taste_score",
+        "packaging_quality_score",
+        "food_category",
+        "preservatives_used"
+    ],
+    "feature_names": [
+        "moisture_content",
+        "ph_level",
+        "storage_temperature",
+        "expiry_days_remaining",
+        "color_score",
+        "smell_score",
+        "taste_score",
+        "packaging_quality_score",
+        "food_category_beverages",
+        "food_category_grains",
+        "food_category_honey",
+        "food_category_milk",
+        "food_category_oil",
+        "food_category_processed",
+        "food_category_spices",
+        "preservatives_used_non-permitted",
+        "preservatives_used_none",
+        "preservatives_used_permitted"
+    ],
+    "risk_band_thresholds": {
+        "low_risk": "< 0.35",
+        "medium_risk": "0.35 - 0.65",
+        "high_risk": "> 0.65"
+    }
+}
