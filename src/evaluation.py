@@ -271,11 +271,15 @@ def select_and_serialize_winning_model(
     constructs the end-to-end inference Pipeline, and serializes artifacts.
     """
     # Safety-First Selection Criterion:
-    # 1. Sort by Recall (Adulterated) descending
-    # 2. Tie-break with ROC-AUC and F1-Score
-    winner_row = metrics_df.sort_values(
-        by=['Recall (Adulterated)', 'ROC-AUC', 'F1-Score'], ascending=False
-    ).iloc[0]
+    # 1. Models with 100% Recall on the Adulterated Class (Zero False Negatives)
+    # 2. Prefer Random Forest for universal cross-platform pickle serialization (no Cython _loss objects)
+    perfect_recall_models = metrics_df[metrics_df['Recall (Adulterated)'] >= 1.0]
+    if 'Random Forest' in perfect_recall_models['Model'].values:
+        winner_row = perfect_recall_models[perfect_recall_models['Model'] == 'Random Forest'].iloc[0]
+    else:
+        winner_row = metrics_df.sort_values(
+            by=['Recall (Adulterated)', 'ROC-AUC', 'F1-Score'], ascending=False
+        ).iloc[0]
 
     winning_model_name = winner_row['Model']
     winning_estimator = fitted_models[winning_model_name]

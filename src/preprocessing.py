@@ -27,6 +27,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
+if __name__ == '__main__':
+    sys.modules['src.preprocessing'] = sys.modules['__main__']
+
 import joblib
 import numpy as np
 import pandas as pd
@@ -66,6 +69,8 @@ class IQRClipper(BaseEstimator, TransformerMixin):
         X_arr = np.asarray(X, dtype=float)
         clipped = np.clip(X_arr, self.lower_bounds_, self.upper_bounds_)
         return clipped
+
+IQRClipper.__module__ = "src.preprocessing"
 
 
 def create_preprocessor() -> Tuple[ColumnTransformer, List[str]]:
