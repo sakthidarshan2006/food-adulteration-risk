@@ -189,11 +189,11 @@ The web application is ready for instant deployment to [Streamlit Community Clou
 1. Fork or push this repository to your GitHub account (e.g., `https://github.com/<username>/food-adulteration-risk`).
 2. Log in to [Streamlit Community Cloud](https://share.streamlit.io/) using GitHub.
 3. Click **"New app"** and select:
-   - **Repository:** `<username>/food-adulteration-risk`
+   - **Repository:** `sakthidarshan2006/food-adulteration-risk`
    - **Branch:** `main`
    - **Main file path:** `app/app.py`
 4. Click **"Deploy!"**.
-5. Public App URL: `https://<username>-food-adulteration-risk-app.streamlit.app`
+5. Public App URL: `https://food-adulteration-risk.streamlit.app`
 
 > **Note on Cloud Persistence:** Streamlit Community Cloud uses ephemeral container instances. In-app database logs saved to `db/predictions.db` will persist during the session but reset upon container reboot or redeploy. For permanent production persistence, integrate cloud-hosted PostgreSQL or Supabase via Streamlit secrets.
 
