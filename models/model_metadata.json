@@ -1,15 +1,15 @@
 {
     "model_name": "Gradient Boosting",
     "selection_metric": "Recall (Adulterated Class)",
-    "timestamp": "2026-09-29T12:36:52.578044",
+    "timestamp": "2026-10-29T09:49:56.224976",
     "metrics": {
         "accuracy": 0.9967,
         "precision": 0.9902,
         "recall": 1.0,
         "f1_score": 0.9951,
         "roc_auc": 1.0,
-        "cv_recall_mean": 0.9997,
-        "cv_recall_std": 0.0006
+        "cv_recall_mean": 1.0,
+        "cv_recall_std": 0.0
     },
     "input_columns": [
         "moisture_content",

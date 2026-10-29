@@ -18,27 +18,23 @@ accredited laboratory testing. Do not use for real food safety decisions.
 
 import os
 import sys
-import json
-import sqlite3
-import pandas as pd
-import numpy as np
-import streamlit as st
-import matplotlib.pyplot as plt
 
 # Ensure repository root is on sys.path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
+import json
+import pandas as pd
+import streamlit as st
+import matplotlib
+matplotlib.use('Agg')
+
+# IQRClipper required in module scope for joblib unpickling
 from src.preprocessing import IQRClipper
-from src.predict import (
-    predict_single, predict_batch, load_model_pipeline,
-    determine_risk_band, compute_feature_attribution_single
-)
+from src.predict import predict_single, predict_batch, load_model_pipeline
 from src.database import (
-    init_db, get_recent_predictions, get_daily_summary,
-    get_category_adulteration_rate, get_risk_distribution,
-    get_all_predictions_as_df
+    init_db, get_recent_predictions, get_all_predictions_as_df
 )
 
 # -----------------------------------------------------------------------------

@@ -16,13 +16,22 @@ NOT a substitute for accredited laboratory testing.
 """
 
 import os
+import sys
+
+# Ensure repository root is on sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
-from typing import Dict, Any, Tuple
+from typing import Dict
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import chi2, SelectKBest
+from sklearn.feature_selection import chi2
 from sklearn.preprocessing import MinMaxScaler
 
 # Global styling configuration

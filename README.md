@@ -79,7 +79,6 @@ food-adulteration-risk/
 │       ├── train_preprocessed.csv           # Cleaned & balanced training set
 │       └── test_preprocessed.csv            # Cleaned hold-out test set
 ├── db/
-│   ├── database.py                # Database connection & schema utilities
 │   └── predictions.db             # SQLite audit database (auto-generated)
 ├── models/
 │   ├── best_model_pipeline.joblib # Serialized winning model + preprocessor

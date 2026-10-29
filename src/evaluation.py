@@ -21,10 +21,19 @@ NOT a substitute for accredited laboratory testing.
 """
 
 import os
+import sys
+
+# Ensure repository root is on sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
 import joblib
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
@@ -68,7 +77,7 @@ def get_tuned_estimators() -> Dict[str, Any]:
         'Logistic Regression': LogisticRegression(
             C=1.0, solver='lbfgs', max_iter=1000, random_state=RANDOM_STATE
         ),
-        'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=7, weights='distance', n_jobs=-1),
+        'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=7, weights='distance', n_jobs=1),
         'Gradient Boosting': GradientBoostingClassifier(
             n_estimators=100, learning_rate=0.1, max_depth=3, random_state=RANDOM_STATE
         )
@@ -90,7 +99,6 @@ def evaluate_all_models(
     y_train = df_train['is_adulterated'].values
     X_test = df_test.drop(columns=['is_adulterated']).values
     y_test = df_test['is_adulterated'].values
-    feature_names = [c for c in df_train.columns if c != 'is_adulterated']
 
     estimators = get_tuned_estimators()
     cv_splitter = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
@@ -107,7 +115,7 @@ def evaluate_all_models(
         fitted_models[name] = clf
 
         # 5-fold Cross-Validation Recall (Mean ± Std)
-        cv_recalls = cross_val_score(clf, X_train, y_train, cv=cv_splitter, scoring='recall', n_jobs=-1)
+        cv_recalls = cross_val_score(clf, X_train, y_train, cv=cv_splitter, scoring='recall', n_jobs=1)
         cv_mean = float(np.mean(cv_recalls))
         cv_std = float(np.std(cv_recalls))
 
@@ -140,7 +148,7 @@ def evaluate_all_models(
             'ROC-AUC': round(auc, 4),
             'CV_Recall_Mean': round(cv_mean, 4),
             'CV_Recall_Std': round(cv_std, 4),
-            'CV_Recall_Formatted': f"{cv_mean:.4f} ± {cv_std:.4f}"
+            'CV_Recall_Formatted': f"{cv_mean:.4f} +/- {cv_std:.4f}"
         })
 
     metrics_df = pd.DataFrame(metrics_list)

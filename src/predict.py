@@ -26,7 +26,7 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
-from typing import Dict, Any, Union, Tuple, List
+from typing import Dict, Any, List
 
 # Ensure repository root is on sys.path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))

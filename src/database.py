@@ -22,7 +22,7 @@ import os
 import sqlite3
 import pandas as pd
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any
 
 DB_DIR = "db"
 DEFAULT_DB_PATH = os.path.join(DB_DIR, "predictions.db")

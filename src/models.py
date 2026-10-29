@@ -19,11 +19,19 @@ NOT a substitute for accredited laboratory testing.
 """
 
 import os
-import joblib
+import sys
+
+# Ensure repository root is on sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
@@ -272,7 +280,6 @@ def run_apriori_association_mining(
     except Exception as e:
         print(f"[NOTE] Using internal transactional association rule miner ({e})...")
         # Native deterministic implementation of Association Rule Mining
-        total_n = len(transactions)
         p_adulterated = transactions['Adulterated'].mean()
         candidate_items = [c for c in transactions.columns if c != 'Adulterated']
         
